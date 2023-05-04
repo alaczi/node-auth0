@@ -14,6 +14,7 @@ const ClientGrantsManager = require('../../src/management/ClientGrantsManager');
 const GrantsManager = require('../../src/management/GrantsManager');
 const ConnectionsManager = require('../../src/management/ConnectionsManager');
 const DeviceCredentialsManager = require('../../src/management/DeviceCredentialsManager');
+const DeviceCodeManager = require('../../src/management/DeviceCodeManager');
 const EmailProviderManager = require('../../src/management/EmailProviderManager');
 const EmailTemplatesManager = require('../../src/management/EmailTemplatesManager');
 const JobsManager = require('../../src/management/JobsManager');
@@ -185,6 +186,10 @@ describe('ManagementClient', () => {
         property: 'deviceCredentials',
         cls: DeviceCredentialsManager,
       },
+      DeviceCodeManager: {
+        property: 'deviceCode',
+        cls: DeviceCodeManager,
+      },
       EmailProviderManager: {
         property: 'emailProvider',
         cls: EmailProviderManager,
@@ -339,6 +344,14 @@ describe('ManagementClient', () => {
           requestHeaders
         );
 
+        expect(client.deviceCode.verifyDevice.restClient.restClient.options.headers).to.contain(
+          requestHeaders
+        );
+
+        expect(client.deviceCode.activateDevice.restClient.restClient.options.headers).to.contain(
+          requestHeaders
+        );
+
         expect(client.rules.resource.restClient.restClient.options.headers).to.contain(
           requestHeaders
         );
@@ -487,6 +500,14 @@ describe('ManagementClient', () => {
           requestHeaders
         );
 
+        expect(client.deviceCode.verifyDevice.restClient.restClient.options.headers).to.contain(
+          requestHeaders
+        );
+
+        expect(client.deviceCode.activateDevice.restClient.restClient.options.headers).to.contain(
+          requestHeaders
+        );
+
         expect(client.rules.resource.restClient.restClient.options.headers).to.contain(
           requestHeaders
         );
@@ -631,6 +652,14 @@ describe('ManagementClient', () => {
 
         expect(
           client.deviceCredentials.resource.restClient.restClient.options.headers
+        ).to.not.have.property('Auth0-Client');
+
+        expect(
+          client.deviceCode.verifyDevice.restClient.restClient.options.headers
+        ).to.not.have.property('Auth0-Client');
+
+        expect(
+          client.deviceCode.activateDevice.restClient.restClient.options.headers
         ).to.not.have.property('Auth0-Client');
 
         expect(client.rules.resource.restClient.restClient.options.headers).to.not.have.property(
@@ -782,6 +811,14 @@ describe('ManagementClient', () => {
           client.deviceCredentials.resource.restClient.restClient.options.headers
         ).to.not.have.property('Auth0-Client');
 
+        expect(
+          client.deviceCode.verifyDevice.restClient.restClient.options.headers
+        ).to.not.have.property('Auth0-Client');
+
+        expect(
+          client.deviceCode.activateDevice.restClient.restClient.options.headers
+        ).to.not.have.property('Auth0-Client');
+
         expect(client.rules.resource.restClient.restClient.options.headers).to.not.have.property(
           'Auth0-Client'
         );
@@ -881,6 +918,8 @@ describe('ManagementClient', () => {
       'createDevicePublicKey',
       'getDeviceCredentials',
       'deleteDeviceCredential',
+      'verifyDeviceCode',
+      'activateDeviceCode',
       'getRules',
       'createRule',
       'getRule',

@@ -15,6 +15,7 @@ const AttackProtectionManager = require('./AttackProtectionManager');
 const BlacklistedTokensManager = require('./BlacklistedTokensManager');
 const RulesManager = require('./RulesManager');
 const DeviceCredentialsManager = require('./DeviceCredentialsManager');
+const DeviceCodeManager = require('./DeviceCodeManager');
 const EmailProviderManager = require('./EmailProviderManager');
 const StatsManager = require('./StatsManager');
 const TenantManager = require('./TenantManager');
@@ -401,6 +402,12 @@ class ManagementClient {
      * @type {AttackProtectionManager}
      */
     this.attackProtection = new AttackProtectionManager(managerOptions);
+    /**
+     * Device Code Manager
+     *
+     * @type {DeviceCodeManager}
+     */
+    this.deviceCode = new DeviceCodeManager(managerOptions);
   }
 
   /**
@@ -3403,6 +3410,50 @@ class ManagementClient {
    */
   updateCustomTextByLanguage(...args) {
     return this.prompts.updateCustomTextByLanguage(...args);
+  }
+
+  /**
+   * Verify a device code.
+   *
+   * @example
+   * management.deviceCode.verify(data, function (err) {
+   *   if (err) {
+   *     // Handle error.
+   *   }
+   *
+   *   // Information about the device code is returned.
+   * });
+   * @param   {object}    data     The device data object.
+   * @param   {Function}  [cb]     Callback function.
+   * @returns  {Promise|undefined}
+   */
+  verifyDeviceCode(...args) {
+    return this.deviceCode.verify(...args);
+  }
+
+  /**
+   * Activate an Auth0 device code.
+   *
+   * @example
+   * var params = {
+   *   "user_code": "$user_code",
+   *   "subject_token": "$access_token"
+   * };
+   *
+   * management.deviceCode.approve(params, function (err) {
+   *   if (err) {
+   *     // Handle error.
+   *   }
+   *
+   *   // Device Code approved.
+   * });
+   * @param   {object}    params          Credential parameters.
+   * @param   {string}    params.id       Device credential ID.
+   * @param   {Function}  [cb]            Callback function.
+   * @returns  {Promise|undefined}
+   */
+  activateDeviceCode(...args) {
+    return this.deviceCode.activate(...args);
   }
 }
 
